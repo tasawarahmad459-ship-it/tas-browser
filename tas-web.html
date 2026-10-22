@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TAS Browser</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background: #0f0f11; color: #e4e4e7; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .toolbar { background: #1f1f23; padding: 10px; display: flex; gap: 10px; border-bottom: 1px solid #2e2e33; }
+        .omnibox { flex: 1; background: #2e2e33; border: 1px solid #3f3f46; padding: 6px 12px; border-radius: 20px; color: #fff; outline: none; }
+        .btn { background: #6366f1; color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .btn-sec { background: #2e2e33; border: 1px solid #3f3f46; }
+        .view-frame { flex: 1; display: flex; justify-content: center; align-items: center; background: #141416; }
+        iframe { width: 100%; height: 100%; border: none; display: none; }
+        .auth-card { background: #1f1f23; border: 1px solid #2e2e33; padding: 25px; border-radius: 8px; width: 320px; text-align: center; }
+        .input-field { width: 100%; background: #2e2e33; border: 1px solid #3f3f46; padding: 8px; border-radius: 4px; color: white; margin-top: 5px; margin-bottom: 15px; outline: none; }
+    </style>
+</head>
+<body>
+
+    <div class="toolbar">
+        <input type="text" class="omnibox" id="urlInput" value="example.com" placeholder="Enter URL or search term...">
+        <button class="btn" onclick="navTo()">Go</button>
+        <button class="btn btn-sec" onclick="search()">Search</button>
+    </div>
+
+    <div class="view-frame">
+        <div class="auth-card" id="authBox">
+            <h3 style="margin-bottom: 15px;">Secure Entry Gateway</h3>
+            <input type="text" class="input-field" id="uName" placeholder="Username">
+            <input type="password" class="input-field" id="pWord" placeholder="Password">
+            <button class="btn" style="width: 100%;" onclick="login()">Authenticate</button>
+        </div>
+        <iframe id="viewport"></iframe>
+    </div>
+
+    <script>
+        // Simple default user database string structure simulation
+        const db = { "admin": "password" };
+
+        function login() {
+            const u = document.getElementById('uName').value;
+            const p = document.getElementById('pWord').value;
+            if (db[u] === p) {
+                document.getElementById('authBox').style.display = "none";
+                const f = document.getElementById('viewport');
+                f.style.display = "block";
+                f.src = "https://duckduckgo.com";
+            } else {
+                alert("Access Denied.");
+            }
+        }
+
+        function navTo() {
+            const f = document.getElementById('viewport');
+            let target = document.getElementById('urlInput').value.trim();
+            if (f.style.display !== "block") return alert("Please login first.");
+            if (!target.startsWith('http')) target = 'https://' + target;
+            f.src = target;
+        }
+
+        function search() {
+            const f = document.getElementById('viewport');
+            const q = document.getElementById('urlInput').value.trim();
+            if (f.style.display !== "block") return alert("Please login first.");
+            if (q) f.src = "https://duckduckgo.com/html/?q=" + encodeURIComponent(q);
+        }
+    </script>
+</body>
+</html>
