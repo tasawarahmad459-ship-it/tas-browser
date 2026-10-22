@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TAS Browser System Configurations -->
+<system>
+    <credentials>
+        <account id="1">
+            <username>admin</username>
+            <password>password</password>
+            <role>administrator</role>
+        </account>
+    </credentials>
+    <preferences>
+        <homepage>https://duckduckgo.com</homepage>
+        <theme>dark</theme>
+    </preferences>
+</system>
